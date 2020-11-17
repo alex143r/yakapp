@@ -1,31 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Main from "./components/Main";
 import './App.css';
 
 function App() {
-  const [cards, setCards] = useState([
-    {
-      task:"Clean room",
-      list:"todo",
-      highlight:true
-    },
-    {
-      task:"Clean kitchen",
-      list:"doing",
-      highlight:false
-    },
-    {
-      task:"Do JS",
-      list:"done",
-      highlight:true
-    },
-    {
-      task:"Learn React",
-      list:"doing",
-      highlight:false
-    }
-  ]);
-  
+  const [cards, setCards] = useState([]);
+
+
+  useEffect(()=>{
+    fetch("https://testerino-5797.restdb.io/rest/cards", {
+      method: "get",
+      headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "x-apikey": "5f96a7fb4b77c1637d147dd1",
+          "cache-control": "no-cache"
+      }
+  })
+  .then(e => e.json())
+  .then(data => setCards(data));
+  }, []);
+
   const day = "monday".split("").join(" ");
   const message = "Hi Mom";
   const addCard = () => {
